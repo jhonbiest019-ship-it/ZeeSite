@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "name": "bmstores-clone",
+  "cleanUrls": true,
+  "routes": [
+    {
+      "src": "/bm-sync-controller.js",
+      "dest": "/bm-sync-controller.js"
+    },
+    {
+      "src": "/bm-sync-controller.css",
+      "dest": "/bm-sync-controller.css"
+    },
+    {
+      "src": "/css/(.*)",
+      "dest": "/css/$1"
+    },
+    {
+      "src": "/js/(.*)",
+      "dest": "/js/$1"
+    },
+    {
+      "src": "/wsimages/(.*)",
+      "dest": "/wsimages/$1"
+    },
+    {
+      "src": "/products.json",
+      "dest": "/products.json"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
