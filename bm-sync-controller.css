@@ -1,0 +1,500 @@
+/* ==========================================================================
+   B&M STORES - LIVE SYNC CONTROLLER & THEMES
+   ========================================================================== */
+
+/* 1. THEME: Royal Navy & Champagne Gold */
+[data-theme="royal-navy"] {
+  --theme-primary: #0b1d3a;
+  --theme-primary-hover: #132d56;
+  --theme-primary-dark: #061124;
+  --theme-secondary: #1a3668;
+  --theme-accent: #c5a059;
+  --theme-accent-hover: #b08d46;
+  --theme-accent-soft: #fcf8ee;
+  --theme-accent-border: #dfc896;
+  --theme-accent-glow: rgba(197, 160, 89, 0.25);
+  --theme-bg-body: #fafafc;
+  --theme-bg-card: #ffffff;
+  --theme-border-subtle: #e6ebf1;
+  --theme-text-heading: #0b1d3a;
+  --theme-text-body: #2d3748;
+  --theme-price-color: #0b1d3a;
+  --theme-badge-bg: #fcf8ee;
+  --theme-badge-color: #795d1e;
+  --theme-badge-border: #dfc896;
+}
+
+[data-theme="royal-navy"] header.bm-navbar,
+[data-theme="royal-navy"] .bg-light.bm-navbar {
+  background: var(--theme-primary-dark) !important;
+  border-bottom: 2px solid var(--theme-accent) !important;
+}
+
+[data-theme="royal-navy"] .bm-navbar .bm-navbar-btn-icon {
+  color: var(--theme-accent) !important;
+}
+
+[data-theme="royal-navy"] .bm-navbar .bm-navbar-btn-text {
+  color: #ffffff !important;
+}
+
+[data-theme="royal-navy"] .bm-navbar-logo {
+  border: 2px solid var(--theme-accent) !important;
+  box-shadow: 0 0 10px var(--theme-accent-glow) !important;
+}
+
+[data-theme="royal-navy"] .btn-primary#bm-header-search-btn-lg,
+[data-theme="royal-navy"] .input-group-append .btn-primary {
+  background-color: var(--theme-accent) !important;
+  border-color: var(--theme-accent) !important;
+  color: var(--theme-primary-dark) !important;
+}
+
+[data-theme="royal-navy"] footer.bm-footer {
+  background-color: var(--theme-primary-dark) !important;
+  border-top: 3px solid var(--theme-accent) !important;
+}
+
+[data-theme="royal-navy"] .bm-product-list-tag,
+[data-theme="royal-navy"] .bm-product-tag-new {
+  background-color: var(--theme-badge-bg) !important;
+  color: var(--theme-badge-color) !important;
+  border: 1px solid var(--theme-badge-border) !important;
+}
+
+/* 2. THEME: Forest Green & Warm Cream */
+[data-theme="forest-green"] {
+  --theme-primary: #153e2b;
+  --theme-primary-hover: #1f563d;
+  --theme-primary-dark: #0a2116;
+  --theme-accent: #b8864a;
+  --theme-accent-soft: #f4eee1;
+  --theme-bg-body: #f8f6f0;
+}
+
+[data-theme="forest-green"] header.bm-navbar {
+  background: #0a2116 !important;
+  border-bottom: 2px solid #b8864a !important;
+}
+
+[data-theme="forest-green"] .bm-navbar .bm-navbar-btn-icon {
+  color: #b8864a !important;
+}
+
+[data-theme="forest-green"] footer.bm-footer {
+  background-color: #0a2116 !important;
+  border-top: 3px solid #b8864a !important;
+}
+
+/* 3. THEME: Charcoal Black & Electric Blue */
+[data-theme="charcoal-electric"] {
+  --theme-primary: #11141a;
+  --theme-accent: #0070f3;
+}
+
+[data-theme="charcoal-electric"] header.bm-navbar {
+  background: #08090c !important;
+  border-bottom: 2px solid #0070f3 !important;
+}
+
+[data-theme="charcoal-electric"] .bm-navbar .bm-navbar-btn-icon {
+  color: #0070f3 !important;
+}
+
+[data-theme="charcoal-electric"] footer.bm-footer {
+  background-color: #08090c !important;
+  border-top: 3px solid #0070f3 !important;
+}
+
+/* ==========================================================================
+   LIVE SYNC STATUS & CONTROLLER BAR
+   ========================================================================== */
+.bm-sync-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 10000;
+  background: rgba(11, 29, 58, 0.94);
+  color: #ffffff;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.78rem;
+}
+
+.bm-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: #4ade80;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.bm-sync-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+  animation: bmPulse 1.8s infinite;
+}
+
+@keyframes bmPulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.bm-theme-select {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+
+.bm-theme-select option {
+  background: #0b1d3a;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   PRODUCT CARD ACTIONS (ADD TO BASKET & QUICK VIEW)
+   ========================================================================== */
+.bm-card-action-bar {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.bm-btn-add-cart {
+  flex: 1;
+  background-color: #f15a24;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 7px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+[data-theme="royal-navy"] .bm-btn-add-cart {
+  background-color: #0b1d3a !important;
+  border: 1px solid #c5a059 !important;
+}
+
+[data-theme="royal-navy"] .bm-btn-add-cart i {
+  color: #c5a059 !important;
+}
+
+.bm-btn-add-cart:hover {
+  background-color: #d94814;
+  transform: translateY(-1px);
+}
+
+.bm-btn-quick-view {
+  background-color: #f1f5f9;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 7px 10px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+/* Basket Drawer */
+.bm-basket-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 10050;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.bm-basket-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.bm-basket-drawer {
+  position: fixed;
+  top: 0;
+  right: -450px;
+  width: 100%;
+  max-width: 440px;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 10051;
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.bm-basket-drawer.active {
+  right: 0;
+}
+
+.bm-basket-header {
+  padding: 16px 20px;
+  background-color: #002f6c;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+[data-theme="royal-navy"] .bm-basket-header {
+  background-color: #061124 !important;
+  border-bottom: 2px solid #c5a059;
+}
+
+.bm-basket-header h5 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bm-basket-close {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.bm-delivery-bar {
+  background-color: #fef3c7;
+  border-bottom: 1px solid #fde68a;
+  padding: 10px 16px;
+  font-size: 0.82rem;
+  color: #92400e;
+}
+
+.bm-delivery-progress {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.bm-delivery-progress-fill {
+  height: 100%;
+  background: #f15a24;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+[data-theme="royal-navy"] .bm-delivery-progress-fill {
+  background: #c5a059 !important;
+}
+
+.bm-basket-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.bm-basket-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e8f0;
+  align-items: center;
+}
+
+.bm-basket-item-img {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+  border-radius: 4px;
+  border: 1px solid #edf2f7;
+  padding: 4px;
+}
+
+.bm-basket-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.bm-basket-item-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bm-basket-item-price {
+  font-weight: 700;
+  color: #f15a24;
+  font-size: 0.95rem;
+}
+
+[data-theme="royal-navy"] .bm-basket-item-price {
+  color: #0b1d3a !important;
+}
+
+.bm-qty-control {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+.bm-qty-btn {
+  background: #f8fafc;
+  border: none;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.bm-qty-val {
+  width: 30px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.bm-basket-item-remove {
+  color: #94a3b8;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.bm-basket-footer {
+  padding: 16px 20px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.bm-basket-subtotal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.bm-basket-checkout-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: #16a34a;
+  color: #ffffff !important;
+  text-align: center;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Toast */
+.bm-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10090;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bm-toast {
+  background: #002f6c;
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-left: 4px solid #f15a24;
+}
+
+[data-theme="royal-navy"] .bm-toast {
+  background: #061124 !important;
+  border-left-color: #c5a059 !important;
+}
+
+/* Quick View */
+.bm-quickview-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10060;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.bm-quickview-backdrop.active {
+  display: flex;
+}
+
+.bm-quickview-dialog {
+  background: #fff;
+  border-radius: 12px;
+  max-width: 750px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.bm-quickview-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
