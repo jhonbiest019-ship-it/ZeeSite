@@ -39,8 +39,8 @@
 }
 
 [data-theme="royal-navy"] .bm-navbar-logo {
-  border: 2px solid var(--theme-accent) !important;
-  box-shadow: 0 0 10px var(--theme-accent-glow) !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 [data-theme="royal-navy"] .btn-primary#bm-header-search-btn-lg,
