@@ -498,3 +498,6 @@
   font-size: 1.5rem;
   cursor: pointer;
 }
+
+/* Hide Basket Elements */
+#bm-basket-drawer, #bm-basket-overlay, #bm-cart-btn, .bm-card-action-bar, #bm-detail-add-btn { display: none !important; }
