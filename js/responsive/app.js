@@ -55,7 +55,7 @@
       title: "Clinique Happy for Men EDT 50ml",
       price: 15.99,
       rrp: 50.00,
-      unit: "£319.80/litre",
+      unit: "$319.80/litre",
       badge: "New",
       img: "https://cdn.bmstores.co.uk/images/hpcProductImage/imgThumbResponsive/427886-clinique-happy-men-50ml-3.jpg",
       category: "Health & Beauty",
@@ -110,7 +110,7 @@
       title: "Barefoot Zinfandel Red Wine 75cl",
       price: 5.49,
       rrp: 8.50,
-      unit: "£7.32/litre",
+      unit: "$7.32/litre",
       badge: "Great Price",
       img: "https://cdn.bmstores.co.uk/images/hpcProductImage/imgThumbResponsive/441424-barefoot-zinfandel-red-wine-75cl.jpg",
       category: "Food & Drink",
@@ -121,7 +121,7 @@
       title: "Pedigree Ranchos Superfoods Dog Treats 70g - Beef",
       price: 1.49,
       rrp: 2.25,
-      unit: "£21.29/kg",
+      unit: "$21.29/kg",
       badge: "Pet Deal",
       img: "https://cdn.bmstores.co.uk/images/hpcProductImage/imgThumbResponsive/443834-pedigree-ranchos-superfoods-dog-treats-70g-beef.jpg",
       category: "Pets",
@@ -154,7 +154,7 @@
       title: "RAC Ready to Use Winter Screenwash 5L",
       price: 6.00,
       rrp: 9.00,
-      unit: "£1.20/litre",
+      unit: "$1.20/litre",
       badge: "Winter Essential",
       img: "https://cdn.bmstores.co.uk/images/hpcProductImage/imgThumbResponsive/438215-rac-ready-to-use-winter-screenwash-5l.jpg",
       category: "DIY & Motoring",
@@ -416,7 +416,7 @@
             <img class="bm-basket-item-img" src="${item.img}" alt="${item.title}">
             <div class="bm-basket-item-info">
               <div class="bm-basket-item-title" title="${item.title}">${item.title}</div>
-              <div class="bm-basket-item-price">£${(item.price * item.qty).toFixed(2)}</div>
+              <div class="bm-basket-item-price">$${(item.price * item.qty).toFixed(2)}</div>
               <div class="bm-qty-control">
                 <button type="button" class="bm-qty-btn bm-btn-minus" data-id="${item.id}">-</button>
                 <span class="bm-qty-val">${item.qty}</span>
@@ -432,18 +432,18 @@
     }
 
     if (subtotalEl) {
-      subtotalEl.textContent = `£${subtotal.toFixed(2)}`;
+      subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
     }
 
-    // Free shipping threshold £50
+    // Free shipping threshold $50
     if (freeDeliveryText && freeDeliveryProgress) {
       if (subtotal >= 50) {
-        freeDeliveryText.innerHTML = `🎉 <strong>Congratulations!</strong> You qualify for FREE UK Standard Delivery!`;
+        freeDeliveryText.innerHTML = `🎉 <strong>Congratulations!</strong> You qualify for FREE US Standard Delivery!`;
         freeDeliveryProgress.style.width = '100%';
       } else {
         const remaining = (50 - subtotal).toFixed(2);
         const percent = Math.min(100, Math.round((subtotal / 50) * 100));
-        freeDeliveryText.innerHTML = `Add <strong>£${remaining}</strong> more to your order for <strong>FREE UK Delivery</strong>!`;
+        freeDeliveryText.innerHTML = `Add <strong>$${remaining}</strong> more to your order for <strong>FREE US Delivery</strong>!`;
         freeDeliveryProgress.style.width = `${percent}%`;
       }
     }
@@ -479,9 +479,9 @@
               <h4 class="font-weight-bold text-dark mt-1 mb-2">${prod.title}</h4>
               
               <div class="my-3">
-                <span class="h3 font-weight-bold text-danger">£${prod.price.toFixed(2)}</span>
-                ${prod.rrp ? `<span class="text-muted ml-2 font-weight-normal"><del>RRP £${prod.rrp.toFixed(2)}</del></span>` : ''}
-                ${savings ? `<span class="badge badge-success ml-2 font-weight-bold">SAVE ${savingsPct}% (£${savings})</span>` : ''}
+                <span class="h3 font-weight-bold text-danger">$${prod.price.toFixed(2)}</span>
+                ${prod.rrp ? `<span class="text-muted ml-2 font-weight-normal"><del>RRP $${prod.rrp.toFixed(2)}</del></span>` : ''}
+                ${savings ? `<span class="badge badge-success ml-2 font-weight-bold">SAVE ${savingsPct}% (${savings})</span>` : ''}
               </div>
 
               <p class="text-secondary small line-height-lg">${prod.desc}</p>
@@ -576,7 +576,7 @@
         <button type="button" class="bm-quickview-close" id="bm-storefinder-close-btn">&times;</button>
         <div class="p-4 bg-primary text-white" style="background-color: var(--bm-blue) !important;">
           <h5 class="m-0 font-weight-bold"><i class="fas fa-map-marker-alt mr-2 text-warning"></i> Find Your Nearest B&M Store</h5>
-          <p class="small mb-0 mt-1 opacity-75">Over 700 stores across the UK with huge savings every day</p>
+          <p class="small mb-0 mt-1 opacity-75">Over 700 stores across the US with huge savings every day</p>
         </div>
         <div class="p-3 bg-light border-bottom">
           <div class="input-group">
@@ -656,7 +656,7 @@
           <button type="button" class="bm-basket-close" id="bm-basket-close">&times;</button>
         </div>
         <div class="bm-delivery-bar">
-          <div id="bm-free-delivery-text">Add £50.00 for FREE UK Delivery</div>
+          <div id="bm-free-delivery-text">Add $50.00 for FREE US Delivery</div>
           <div class="bm-delivery-progress">
             <div class="bm-delivery-progress-fill" id="bm-free-delivery-progress"></div>
           </div>
@@ -665,7 +665,7 @@
         <div class="bm-basket-footer">
           <div class="bm-basket-subtotal-row">
             <span>Subtotal:</span>
-            <span id="bm-basket-subtotal">£0.00</span>
+            <span id="bm-basket-subtotal">$0.00</span>
           </div>
           <button type="button" class="bm-basket-checkout-btn" id="bm-checkout-btn">
             <i class="fas fa-lock mr-2"></i> Proceed to Secure Checkout
@@ -790,7 +790,7 @@
                 <img class="bm-search-res-thumb" src="${m.img}" alt="${m.title}">
                 <div class="bm-search-res-info">
                   <div class="bm-search-res-title">${m.title}</div>
-                  <div class="bm-search-res-price">£${m.price.toFixed(2)} ${m.rrp ? `<span class="text-muted small font-weight-normal ml-1"><del>RRP £${m.rrp.toFixed(2)}</del></span>` : ''}</div>
+                  <div class="bm-search-res-price">$${m.price.toFixed(2)} ${m.rrp ? `<span class="text-muted small font-weight-normal ml-1"><del>RRP $${m.rrp.toFixed(2)}</del></span>` : ''}</div>
                 </div>
                 <button type="button" class="btn btn-sm btn-outline-danger font-weight-bold bm-search-quick-add" data-id="${m.id}">+ Add</button>
               </div>

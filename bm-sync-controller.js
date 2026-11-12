@@ -136,7 +136,7 @@
             <img class="bm-basket-item-img" src="${i.img}" alt="${i.title}">
             <div class="bm-basket-item-info">
               <div class="bm-basket-item-title">${i.title}</div>
-              <div class="bm-basket-item-price">£${(i.price * i.qty).toFixed(2)}</div>
+              <div class="bm-basket-item-price">$${(i.price * i.qty).toFixed(2)}</div>
               <div class="bm-qty-control">
                 <button type="button" class="bm-qty-btn" onclick="window.bmUpdateQty('${i.id}', -1)">-</button>
                 <span class="bm-qty-val">${i.qty}</span>
@@ -151,16 +151,16 @@
       }
     }
 
-    if (subtotalEl) subtotalEl.textContent = `£${subtotal.toFixed(2)}`;
+    if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
 
     if (deliveryText && deliveryFill) {
       if (subtotal >= 50) {
-        deliveryText.innerHTML = `🎉 You qualify for <strong>FREE UK Delivery</strong>!`;
+        deliveryText.innerHTML = `🎉 You qualify for <strong>FREE US Delivery</strong>!`;
         deliveryFill.style.width = "100%";
       } else {
         const remaining = (50 - subtotal).toFixed(2);
         const pct = Math.min(100, Math.round((subtotal / 50) * 100));
-        deliveryText.innerHTML = `Add <strong>£${remaining}</strong> more for <strong>FREE UK Delivery</strong>!`;
+        deliveryText.innerHTML = `Add <strong>$${remaining}</strong> more for <strong>FREE US Delivery</strong>!`;
         deliveryFill.style.width = `${pct}%`;
       }
     }
@@ -223,7 +223,7 @@
             <button type="button" class="bm-basket-close" id="bm-basket-close">&times;</button>
           </div>
           <div class="bm-delivery-bar">
-            <div id="bm-free-delivery-text">Add £50.00 for FREE UK Delivery</div>
+            <div id="bm-free-delivery-text">Add $50.00 for FREE US Delivery</div>
             <div class="bm-delivery-progress">
               <div class="bm-delivery-progress-fill" id="bm-free-delivery-progress"></div>
             </div>
@@ -232,7 +232,7 @@
           <div class="bm-basket-footer">
             <div class="bm-basket-subtotal-row">
               <span>Subtotal:</span>
-              <span id="bm-basket-subtotal">£0.00</span>
+              <span id="bm-basket-subtotal">$0.00</span>
             </div>
             <button type="button" class="bm-basket-checkout-btn" id="bm-checkout-btn">
               <i class="fas fa-lock mr-2"></i> Proceed to Checkout
@@ -265,7 +265,7 @@
       let price = 0;
       const priceEl = card.querySelector(".bm-product-price-container, .price, .product-price");
       if (priceEl) {
-        const m = priceEl.textContent.match(/£?([0-9]+\.[0-9]{2})/);
+        const m = priceEl.textContent.match(/[\$\u00A3\u20AC]?([0-9]+\.[0-9]{2})/);
         if (m) price = parseFloat(m[1]);
       }
 
@@ -295,7 +295,7 @@
       const priceEl = document.querySelector(".price, .bm-product-price");
       let price = 0;
       if (priceEl) {
-        const m = priceEl.textContent.match(/£?([0-9]+\.[0-9]{2})/);
+        const m = priceEl.textContent.match(/[\$\u00A3\u20AC]?([0-9]+\.[0-9]{2})/);
         if (m) price = parseFloat(m[1]);
       }
       const imgEl = document.querySelector(".product-gallery img, .carousel-item img, img.img-fluid");
@@ -309,7 +309,7 @@
         addBtn.className = "btn btn-primary btn-lg btn-block font-weight-bold mt-2";
         addBtn.style.backgroundColor = "#f15a24";
         addBtn.style.borderColor = "#f15a24";
-        addBtn.innerHTML = `<i class="fas fa-shopping-basket mr-2"></i> Add to Basket (£${price ? price.toFixed(2) : ''})`;
+        addBtn.innerHTML = `<i class="fas fa-shopping-basket mr-2"></i> Add to Basket ($${price ? price.toFixed(2) : ''})`;
         storeBtn.parentNode.insertBefore(addBtn, storeBtn);
 
         addBtn.onclick = () => {
