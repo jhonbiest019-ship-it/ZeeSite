@@ -1,10 +1,8 @@
 @echo off
-title B&M Stores Real-Time Live Sync
+title Local Web Server
 echo ===================================================================
-echo Starting B&M Stores 100%% Real-Time Live Sync at http://localhost:8080/
+echo Starting Local Web Server at http://localhost:8080/
 echo ===================================================================
-start /b powershell -ExecutionPolicy Bypass -File "%~dp0server.ps1"
-timeout /t 2 /nobreak >nul
 start "" "http://localhost:8080/"
-echo Running! Live synced with https://www.bmstores.co.uk/
+node "%~dp0server.js"
 pause
