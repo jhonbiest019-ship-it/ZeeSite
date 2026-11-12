@@ -640,38 +640,42 @@
       };
     }
 
-    // B. Build Basket Drawer HTML
+    // B. Build Basket Drawer HTML (Fixed overlay & off-screen drawer - NEVER renders in footer)
     if (!document.getElementById('bm-basket-drawer')) {
-      const drawerWrap = document.createElement('div');
-      drawerWrap.innerHTML = `
-        <div class="bm-basket-overlay" id="bm-basket-overlay"></div>
-        <div class="bm-basket-drawer" id="bm-basket-drawer">
-          <div class="bm-basket-header">
-            <h5><i class="fas fa-shopping-basket text-warning"></i> Your Basket</h5>
-            <button type="button" class="bm-basket-close" id="bm-basket-close">&times;</button>
+      const overlay = document.createElement('div');
+      overlay.className = 'bm-basket-overlay';
+      overlay.id = 'bm-basket-overlay';
+      document.body.appendChild(overlay);
+
+      const drawer = document.createElement('div');
+      drawer.className = 'bm-basket-drawer';
+      drawer.id = 'bm-basket-drawer';
+      drawer.innerHTML = `
+        <div class="bm-basket-header">
+          <h5><i class="fas fa-shopping-basket text-warning"></i> Your Basket</h5>
+          <button type="button" class="bm-basket-close" id="bm-basket-close">&times;</button>
+        </div>
+        <div class="bm-delivery-bar">
+          <div id="bm-free-delivery-text">Add £50.00 for FREE UK Delivery</div>
+          <div class="bm-delivery-progress">
+            <div class="bm-delivery-progress-fill" id="bm-free-delivery-progress"></div>
           </div>
-          <div class="bm-delivery-bar">
-            <div id="bm-free-delivery-text">Add £50.00 for FREE UK Delivery</div>
-            <div class="bm-delivery-progress">
-              <div class="bm-delivery-progress-fill" id="bm-free-delivery-progress"></div>
-            </div>
+        </div>
+        <div class="bm-basket-items" id="bm-basket-items"></div>
+        <div class="bm-basket-footer">
+          <div class="bm-basket-subtotal-row">
+            <span>Subtotal:</span>
+            <span id="bm-basket-subtotal">£0.00</span>
           </div>
-          <div class="bm-basket-items" id="bm-basket-items"></div>
-          <div class="bm-basket-footer">
-            <div class="bm-basket-subtotal-row">
-              <span>Subtotal:</span>
-              <span id="bm-basket-subtotal">£0.00</span>
-            </div>
-            <button type="button" class="bm-basket-checkout-btn" id="bm-checkout-btn">
-              <i class="fas fa-lock mr-2"></i> Proceed to Secure Checkout
-            </button>
-            <div class="text-center mt-2 small text-muted">
-              <i class="fas fa-shield-alt text-success mr-1"></i> 256-Bit SSL Encrypted Checkout
-            </div>
+          <button type="button" class="bm-basket-checkout-btn" id="bm-checkout-btn">
+            <i class="fas fa-lock mr-2"></i> Proceed to Secure Checkout
+          </button>
+          <div class="text-center mt-2 small text-muted">
+            <i class="fas fa-shield-alt text-success mr-1"></i> 256-Bit SSL Encrypted Checkout
           </div>
         </div>
       `;
-      document.body.appendChild(drawerWrap);
+      document.body.appendChild(drawer);
 
       document.getElementById('bm-basket-close').onclick = closeBasketDrawer;
       document.getElementById('bm-basket-overlay').onclick = closeBasketDrawer;
