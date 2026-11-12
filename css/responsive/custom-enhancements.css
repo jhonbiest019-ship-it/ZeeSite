@@ -721,3 +721,6 @@ footer.bm-footer .bm-footer-col .text-white {
 .bm-dot-navy { background: #c5a059; border: 1.5px solid #0b1d3a; }
 .bm-dot-forest { background: #b8864a; border: 1.5px solid #153e2b; }
 .bm-dot-charcoal { background: #0070f3; border: 1.5px solid #11141a; }
+
+/* Completely Hide Floating Theme Switcher & Sync Bars */
+#bm-theme-switch-pill, .bm-theme-switch-pill, #bm-sync-bar, .bm-sync-bar { display: none !important; }

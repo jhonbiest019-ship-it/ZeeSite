@@ -864,29 +864,11 @@
       };
     }
 
-    // G. Live Theme Switcher Floating Bar
-    if (!document.getElementById("bm-theme-switch-pill")) {
-      const switcher = document.createElement("div");
-      switcher.id = "bm-theme-switch-pill";
-      switcher.className = "bm-theme-switch-pill";
-      switcher.innerHTML = `
-        <span class="bm-theme-switch-label"><i class="fas fa-palette"></i> Theme:</span>
-        ${THEMES.map(t => `
-          <button type="button" class="bm-theme-btn ${t.id === currentTheme ? 'active' : ''}" data-theme="${t.id}" title="${t.name} (${t.desc})">
-            <span class="bm-theme-dot ${t.dotClass}"></span>
-            <span>${t.name}</span>
-          </button>
-        `).join('')}
-      `;
-      document.body.appendChild(switcher);
-
-      switcher.addEventListener("click", (e) => {
-        const btn = e.target.closest(".bm-theme-btn");
-        if (btn && btn.dataset.theme) {
-          applyTheme(btn.dataset.theme, true);
-        }
-      });
-    }
+    // Remove any floating theme switcher pill if present
+    const existingPill = document.getElementById("bm-theme-switch-pill");
+    if (existingPill) existingPill.remove();
+    const existingSyncBar = document.getElementById("bm-sync-bar");
+    if (existingSyncBar) existingSyncBar.remove();
 
     // Apply theme on body once ready
     applyTheme(currentTheme, false);

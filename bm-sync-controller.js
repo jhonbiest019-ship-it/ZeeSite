@@ -249,28 +249,11 @@
       };
     }
 
-    // C. Floating Live Sync Bar
-    if (!document.getElementById("bm-sync-bar")) {
-      const syncBar = document.createElement("div");
-      syncBar.id = "bm-sync-bar";
-      syncBar.className = "bm-sync-bar";
-      syncBar.innerHTML = `
-        <div class="bm-sync-badge">
-          <span class="bm-sync-pulse"></span>
-          <span>Live Synced</span>
-        </div>
-        <span style="opacity:0.4;">|</span>
-        <label for="bm-theme-picker" style="margin:0;font-size:0.75rem;">Theme:</label>
-        <select class="bm-theme-select" id="bm-theme-picker">
-          ${THEMES.map(t => `<option value="${t.id}" ${t.id === currentTheme ? 'selected' : ''}>${t.name}</option>`).join('')}
-        </select>
-      `;
-      document.body.appendChild(syncBar);
-
-      document.getElementById("bm-theme-picker").onchange = (e) => {
-        applyTheme(e.target.value, true);
-      };
-    }
+    // Floating Theme bar removed
+    const existingPill = document.getElementById('bm-theme-switch-pill');
+    if (existingPill) existingPill.remove();
+    const existingSyncBar = document.getElementById('bm-sync-bar');
+    if (existingSyncBar) existingSyncBar.remove();
 
     // D. Enhance Product Cards on Current Page
     document.querySelectorAll(".bm-product-card, article.product, .product-card").forEach(card => {

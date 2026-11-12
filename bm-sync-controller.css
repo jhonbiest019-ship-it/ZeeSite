@@ -498,3 +498,6 @@
   font-size: 1.5rem;
   cursor: pointer;
 }
+
+/* Completely Hide Floating Theme Switcher & Sync Bars */
+#bm-theme-switch-pill, .bm-theme-switch-pill, #bm-sync-bar, .bm-sync-bar { display: none !important; }
