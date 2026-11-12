@@ -395,6 +395,16 @@ footer.bm-footer .bm-footer-col .text-white {
   color: #ffffff !important;
 }
 
+footer.bm-footer p.small,
+footer.bm-footer .text-body,
+footer.bm-footer .bm-copyright {
+  color: #cbd5e1 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.6 !important;
+  opacity: 0.95 !important;
+}
+
+
 /* Newsletter Section */
 .bm-newsletter-box, section form.mx-auto {
   background-color: var(--theme-accent-soft) !important;
