@@ -331,34 +331,68 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   border-color: var(--theme-primary-hover) !important;
 }
 
-/* Footer Section */
+/* Footer Section - Unified Professional Typography */
 footer.bm-footer {
   background-color: var(--theme-primary-dark) !important;
   border-top: 3px solid var(--theme-accent) !important;
-  color: #ffffff !important;
+  color: #cbd5e1 !important;
+  font-family: 'Oxygen', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+footer.bm-footer .bm-footer-col {
+  height: 100%;
 }
 
 footer.bm-footer h2, footer.bm-footer h3, footer.bm-footer h4, footer.bm-footer h5, footer.bm-footer h6,
+footer.bm-footer .bm-footer-col p.font-weight-bold,
+footer.bm-footer .bm-footer-col p.font-weight-bold span,
 footer.bm-footer .bm-footer-toggle {
   color: #ffffff !important;
-  font-weight: 700;
-  border-bottom: 1px solid rgba(197, 160, 89, 0.2) !important;
-  padding-bottom: 8px;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3px;
+  margin-bottom: 12px !important;
+  display: block;
+  border-bottom: none !important;
 }
 
 footer.bm-footer .bm-footer-toggle::after {
   color: var(--theme-accent) !important;
 }
 
-footer.bm-footer a {
+footer.bm-footer .bm-footer-col ul {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
+}
+
+footer.bm-footer .bm-footer-col ul li {
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+  font-size: 0.88rem !important;
+  line-height: 1.55 !important;
   color: #cbd5e1 !important;
+}
+
+footer.bm-footer a,
+footer.bm-footer .bm-footer-link,
+footer.bm-footer .bm-footer-col span {
+  color: #cbd5e1 !important;
+  font-size: 0.88rem !important;
+  line-height: 1.55 !important;
   transition: color 0.15s ease, padding-left 0.15s ease;
 }
 
-footer.bm-footer a:hover {
-  color: var(--theme-accent) !important;
-  text-decoration: none;
-  padding-left: 4px;
+footer.bm-footer a:hover,
+footer.bm-footer a.bm-footer-link:hover {
+  color: var(--theme-accent, #c5a059) !important;
+  text-decoration: none !important;
+  padding-left: 3px;
+}
+
+footer.bm-footer .bm-footer-col .text-white {
+  color: #ffffff !important;
 }
 
 /* Newsletter Section */
