@@ -501,3 +501,73 @@
 
 /* Completely Hide Floating Theme Switcher & Sync Bars */
 #bm-theme-switch-pill, .bm-theme-switch-pill, #bm-sync-bar, .bm-sync-bar { display: none !important; }
+
+/* Permanently Hide Cookie Consent Banners & Overlays */
+#onetrust-consent-sdk,
+#onetrust-banner-sdk,
+.onetrust-pc-dark-filter,
+#onetrust-pc-sdk,
+.ot-sdk-container,
+#ot-sdk-btn-floating,
+.ot-fade-in,
+.cookie-banner,
+.cookie-consent,
+#cookie-law-info-bar,
+#cookie-notice {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+  z-index: -9999 !important;
+}
+
+/* ==========================================================================
+   REAL-TIME CATALOG SYNC & FILTER STYLING
+   ========================================================================== */
+#bm-live-catalog-sync {
+  transition: all 0.4s ease;
+}
+
+.bm-sync-card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: #ffffff;
+}
+
+.bm-sync-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+.bm-sync-add-btn {
+  background-color: #f15a24 !important;
+  border-color: #f15a24 !important;
+  color: #ffffff !important;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.bm-sync-add-btn:hover {
+  background-color: #d94814 !important;
+  border-color: #d94814 !important;
+  transform: scale(1.02);
+}
+
+@keyframes bmHighlightGlow {
+  0% { box-shadow: 0 0 0 0 rgba(241, 90, 36, 0.7); }
+  50% { box-shadow: 0 0 25px 8px rgba(241, 90, 36, 0.5); }
+  100% { box-shadow: 0 0 0 0 rgba(241, 90, 36, 0); }
+}
+
+.bm-highlight-pulse {
+  animation: bmHighlightGlow 1.4s ease-in-out;
+  border-radius: 12px;
+}

@@ -1,5 +1,5 @@
 /**
- * B&M Stores - Real-Time Sync & Theme Engine
+ * B&M Stores / H-US Mart - Real-Time Sync & Theme Engine
  */
 (function() {
   'use strict';
@@ -168,6 +168,7 @@
 
   window.bmUpdateQty = updateQty;
   window.bmRemoveFromCart = removeFromCart;
+  window.bmAddToCart = addToCart;
 
   function openBasketDrawer() {
     renderCart();
@@ -186,33 +187,203 @@
     document.body.style.overflow = "";
   }
 
-  // 3. INITIALIZE IN PAGE
+  // 3. REAL-TIME CATALOG SYNC & FILTER ENGINE
+  let catalogProducts = [];
+
+  function loadCatalog() {
+    fetch('/products.json')
+      .then(res => res.json())
+      .then(data => {
+        catalogProducts = data || [];
+        window.bmCatalogProducts = catalogProducts;
+        console.log('[BM Sync Engine] Loaded', catalogProducts.length, 'catalog products');
+      })
+      .catch(err => {
+        console.warn('[BM Sync Engine] Could not load products.json directly, fallback to embedded catalog', err);
+      });
+  }
+
+  function renderFilteredProducts(products, title, badgeText = 'Category') {
+    const container = document.getElementById('bm-live-catalog-sync');
+    const grid = document.getElementById('bm-sync-product-grid');
+    const titleEl = document.getElementById('bm-sync-category-title');
+    const badgeEl = document.getElementById('bm-sync-category-badge');
+    const countEl = document.getElementById('bm-sync-category-count');
+
+    if (!container || !grid) return;
+
+    if (titleEl) titleEl.textContent = title;
+    if (badgeEl) badgeEl.textContent = badgeText;
+    if (countEl) countEl.textContent = `${products.length} item${products.length !== 1 ? 's' : ''}`;
+
+    if (products.length === 0) {
+      grid.innerHTML = `
+        <div class="col-12 text-center py-5">
+          <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+          <h5>No products currently listed under "${title}"</h5>
+          <p class="text-muted small">Check back soon or explore our New Arrivals!</p>
+        </div>
+      `;
+    } else {
+      grid.innerHTML = products.map(p => {
+        const rawPrice = typeof p.price === 'number' ? p.price : (parseFloat(String(p.price).replace(/[^0-9.]/g, '')) || 0);
+        return `
+          <div class="col-6 col-md-4 col-lg-3 mb-4">
+            <div class="card h-100 border shadow-sm bm-sync-card text-center position-relative">
+              ${p.badge ? `<span class="badge badge-danger position-absolute" style="top:10px;left:10px;z-index:2;font-size:0.75rem;">${p.badge}</span>` : ''}
+              <div class="p-3 d-flex align-items-center justify-content-center" style="height: 180px; background: #fff;">
+                <img src="${p.img}" alt="${p.title}" class="img-fluid" style="max-height: 160px; object-fit: contain;">
+              </div>
+              <div class="card-body d-flex flex-column p-3">
+                <span class="text-muted small mb-1 text-uppercase font-weight-bold" style="font-size:0.7rem;">${p.department || 'Discount Mart'}</span>
+                <h6 class="card-title font-weight-bold mb-2 flex-grow-1" style="font-size: 0.95rem; line-height: 1.3;">${p.title}</h6>
+                <div class="my-2">
+                  <span class="h5 font-weight-bold text-danger mb-0">${p.price || ('$' + rawPrice.toFixed(2))}</span>
+                  ${p.rrp ? `<span class="small text-muted ml-1" style="text-decoration: line-through;">${p.rrp}</span>` : ''}
+                </div>
+                <button type="button" class="btn btn-primary btn-block btn-sm mt-auto font-weight-bold bm-sync-add-btn"
+                  onclick="window.bmAddToCart({ title: '${p.title.replace(/'/g, "\\'")}', price: ${rawPrice}, img: '${p.img}', id: '${p.id || p.title.replace(/\\W+/g, '-').toLowerCase()}' })">
+                  <i class="fas fa-shopping-basket mr-1"></i> Add to Basket
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    container.style.display = 'block';
+
+    // Smooth scroll to container with highlight
+    setTimeout(() => {
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      container.classList.add('bm-highlight-pulse');
+      setTimeout(() => container.classList.remove('bm-highlight-pulse'), 1500);
+    }, 150);
+  }
+
+  function clearCatalogFilter() {
+    const container = document.getElementById('bm-live-catalog-sync');
+    if (container) {
+      container.style.display = 'none';
+    }
+  }
+
+  function closeNavbarDrawer() {
+    if (window.jQuery && window.jQuery('#bm-navbar-modal').length) {
+      window.jQuery('#bm-navbar-modal').modal('hide');
+    } else {
+      const modal = document.getElementById('bm-navbar-modal');
+      if (modal) {
+        modal.classList.remove('show');
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(b => b.remove());
+      }
+    }
+  }
+
+  function setupMenuSyncInterceptors() {
+    // 1. Department Links
+    document.querySelectorAll('.bm-dept-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const dept = this.getAttribute('data-dept');
+        closeNavbarDrawer();
+
+        if (!catalogProducts || catalogProducts.length === 0) {
+          fetch('/products.json').then(r => r.json()).then(data => {
+            catalogProducts = data || [];
+            filterAndShow(dept);
+          });
+        } else {
+          filterAndShow(dept);
+        }
+
+        function filterAndShow(departmentName) {
+          const filtered = catalogProducts.filter(p => {
+            if (p.department && p.department.toLowerCase() === departmentName.toLowerCase()) return true;
+            if (p.tags && p.tags.some(t => t.toLowerCase() === departmentName.toLowerCase())) return true;
+            return false;
+          });
+          renderFilteredProducts(filtered, departmentName, 'Department');
+        }
+      });
+    });
+
+    // 2. Promotional & Section Menu Links
+    document.querySelectorAll('.bm-menu-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const promo = this.getAttribute('data-promo');
+        const targetSelector = this.getAttribute('data-target');
+
+        closeNavbarDrawer();
+
+        if (promo) {
+          // Promo filter
+          if (!catalogProducts || catalogProducts.length === 0) {
+            fetch('/products.json').then(r => r.json()).then(data => {
+              catalogProducts = data || [];
+              filterPromo(promo);
+            });
+          } else {
+            filterPromo(promo);
+          }
+
+          function filterPromo(promoName) {
+            const promoLower = promoName.toLowerCase();
+            const filtered = catalogProducts.filter(p => {
+              if (p.tags && p.tags.some(t => t.toLowerCase().includes(promoLower))) return true;
+              if (p.badge && p.badge.toLowerCase().includes(promoLower)) return true;
+              if (p.title && p.title.toLowerCase().includes(promoLower)) return true;
+              if (p.department && p.department.toLowerCase().includes(promoLower)) return true;
+              return false;
+            });
+            renderFilteredProducts(filtered.length ? filtered : catalogProducts.slice(0, 8), promoName, 'Featured Deal');
+          }
+        } else if (targetSelector) {
+          // Direct Section Scroll
+          const targetEl = document.querySelector(targetSelector);
+          if (targetEl) {
+            setTimeout(() => {
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              targetEl.classList.add('bm-highlight-pulse');
+              setTimeout(() => targetEl.classList.remove('bm-highlight-pulse'), 1500);
+            }, 200);
+          }
+        }
+      });
+    });
+
+    // 3. Clear filter button
+    const clearBtn = document.getElementById('bm-sync-clear-filter');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        clearCatalogFilter();
+        const newArr = document.getElementById('new-arrivals');
+        if (newArr) newArr.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  }
+
+  // 4. INITIALIZE IN PAGE
   function init() {
     applyTheme(currentTheme, false);
+    loadCatalog();
 
-    // A. Add Basket Button in Header
-    const storesDropdown = document.querySelector('.bm-navbar-dropdown');
-    if (storesDropdown && !document.getElementById('bm-cart-btn')) {
-      const cartWrap = document.createElement('div');
-      cartWrap.className = 'ml-2 ml-lg-3 order-md-last';
-      cartWrap.innerHTML = `
-        <button class="navbar-toggler align-items-center border-0 d-flex flex-column justify-content-center p-0 position-relative text-secondary bm-navbar-btn" id="bm-cart-btn" type="button" title="View Shopping Basket">
-          <div class="position-relative">
-            <i aria-hidden="true" class="fas fa-fw fa-shopping-basket my-1 bm-navbar-btn-icon"></i>
-            <span class="badge badge-pill badge-primary position-absolute bm-cart-badge" id="bm-cart-count" style="top:-4px;right:-8px;font-size:0.72rem;display:none;">0</span>
-          </div>
-          <span class="font-weight-bold bm-navbar-btn-text">Basket</span>
-        </button>
-      `;
-      storesDropdown.parentNode.insertBefore(cartWrap, storesDropdown.nextSibling);
-
-      cartWrap.querySelector('#bm-cart-btn').onclick = (e) => {
+    // A. Bind Basket Button in Header
+    const cartBtn = document.getElementById('bm-cart-btn');
+    if (cartBtn) {
+      cartBtn.onclick = (e) => {
         e.preventDefault();
         openBasketDrawer();
       };
     }
 
-    // B. Build Basket Drawer
+    // B. Build Basket Drawer if missing
     if (!document.getElementById("bm-basket-drawer")) {
       const drawerWrap = document.createElement("div");
       drawerWrap.innerHTML = `
@@ -245,25 +416,19 @@
       document.getElementById("bm-basket-close").onclick = closeBasketDrawer;
       document.getElementById("bm-basket-overlay").onclick = closeBasketDrawer;
       document.getElementById("bm-checkout-btn").onclick = () => {
-        alert("🎉 Thank you for testing the B&M Clone Checkout!");
+        alert("🎉 Thank you for testing H-US Mart Checkout!");
       };
     }
 
-    // Floating Theme bar removed
-    const existingPill = document.getElementById('bm-theme-switch-pill');
-    if (existingPill) existingPill.remove();
-    const existingSyncBar = document.getElementById('bm-sync-bar');
-    if (existingSyncBar) existingSyncBar.remove();
-
-    // D. Enhance Product Cards on Current Page
+    // C. Enhance Product Cards on Current Page (New Arrivals & Top Trending)
     document.querySelectorAll(".bm-product-card, article.product, .product-card").forEach(card => {
       if (card.querySelector(".bm-card-action-bar")) return;
 
       const titleLink = card.querySelector(".bm-product-stretch-link, h2 a, h3 a, .product-title a");
-      const title = titleLink ? titleLink.textContent.trim() : "B&M Product";
+      const title = titleLink ? titleLink.textContent.trim() : "H-US Mart Product";
 
       let price = 0;
-      const priceEl = card.querySelector(".bm-product-price-container, .price, .product-price");
+      const priceEl = card.querySelector(".bm-product-price-container, .price, .product-price, .h5");
       if (priceEl) {
         const m = priceEl.textContent.match(/[\$\u00A3\u20AC]?([0-9]+\.[0-9]{2})/);
         if (m) price = parseFloat(m[1]);
@@ -288,35 +453,8 @@
       };
     });
 
-    // E. On Single Product Page (if viewing /products/...)
-    if (window.location.pathname.startsWith("/products/") && document.querySelector(".product-page, h1")) {
-      const h1 = document.querySelector("h1");
-      const title = h1 ? h1.textContent.trim() : "";
-      const priceEl = document.querySelector(".price, .bm-product-price");
-      let price = 0;
-      if (priceEl) {
-        const m = priceEl.textContent.match(/[\$\u00A3\u20AC]?([0-9]+\.[0-9]{2})/);
-        if (m) price = parseFloat(m[1]);
-      }
-      const imgEl = document.querySelector(".product-gallery img, .carousel-item img, img.img-fluid");
-      const img = imgEl ? (imgEl.src || imgEl.getAttribute("data-src")) : "";
-
-      const storeBtn = document.querySelector(".btn-store-finder, .store-finder-btn, a[href*='stores']");
-      if (storeBtn && !document.getElementById("bm-detail-add-btn")) {
-        const addBtn = document.createElement("button");
-        addBtn.id = "bm-detail-add-btn";
-        addBtn.type = "button";
-        addBtn.className = "btn btn-primary btn-lg btn-block font-weight-bold mt-2";
-        addBtn.style.backgroundColor = "#f15a24";
-        addBtn.style.borderColor = "#f15a24";
-        addBtn.innerHTML = `<i class="fas fa-shopping-basket mr-2"></i> Add to Basket ($${price ? price.toFixed(2) : ''})`;
-        storeBtn.parentNode.insertBefore(addBtn, storeBtn);
-
-        addBtn.onclick = () => {
-          addToCart({ title, price, img, id: window.location.pathname });
-        };
-      }
-    }
+    // D. Setup Real-time Menu Interceptors
+    setupMenuSyncInterceptors();
 
     renderCart();
   }
@@ -328,3 +466,21 @@
   }
 
 })();
+
+// Auto-remove Cookie Consent Banners
+function removeAllCookieBanners() {
+  const ids = ['onetrust-consent-sdk', 'onetrust-banner-sdk', 'onetrust-pc-sdk', 'ot-sdk-btn-floating'];
+  ids.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  });
+  const filters = document.querySelectorAll('.onetrust-pc-dark-filter, .ot-fade-in');
+  filters.forEach(function(el) { el.remove(); });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', removeAllCookieBanners);
+} else {
+  removeAllCookieBanners();
+}
+window.addEventListener('load', removeAllCookieBanners);
+setInterval(removeAllCookieBanners, 300);
